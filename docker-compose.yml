@@ -1,0 +1,25 @@
+# Copyright 2025 Raza Ahmad. Licensed under Apache 2.0.
+
+version: '3.8'
+
+services:
+  healthcare-api:
+    build: .
+    container_name: zk-healthcare-api
+    ports:
+      - "8000:8000"
+    environment:
+      - SOLANA_NETWORK=devnet
+      - SOLANA_ENDPOINT=https://api.devnet.solana.com
+      - LOG_LEVEL=info
+    volumes:
+      - ./agents:/app/agents
+      - ./circuits:/app/circuits
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    command: python -m uvicorn agents.api:app --host 0.0.0.0 --port 8000 --reload

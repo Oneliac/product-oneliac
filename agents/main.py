@@ -169,4 +169,88 @@ class PrescriptionAgent(HealthcareAgent):
         await asyncio.sleep(0.05)
         return f"LayerZero confirmed: {drug_code} available on Ethereum bridge"
 
-# Other classes (EligibilityAgent, DiagnosisModel, main) unchanged; ensure type hints in future iterations.
+class EligibilityAgent(HealthcareAgent):
+    # Copyright 2025 Raza Ahmad. Licensed under Apache 2.0.
+    
+    def __init__(self, solana_endpoint: str):
+        super().__init__("EligibilityChecker", solana_endpoint)
+        self.coverage_database = self._load_coverage_database()
+    
+    def _load_coverage_database(self) -> Dict[str, Dict]:
+        """Load insurance coverage database. Externalize to config/coverage.json in future."""
+        return {
+            "PROC001": {"base_coverage": 80.0, "requires_auth": True},
+            "PROC002": {"base_coverage": 60.0, "requires_auth": False},
+            "PROC003": {"base_coverage": 100.0, "requires_auth": True},
+        }
+    
+    async def check_insurance_coverage(self, patient_data: PatientData, procedure_code: str) -> Dict:
+        """Check patient insurance coverage for a given procedure using ZK proofs."""
+        # Verify patient eligibility using ZK proof
+        is_eligible = await self.verify_eligibility(patient_data)
+        
+        if not is_eligible:
+            return {
+                "eligible": False,
+                "coverage_pct": 0.0,
+                "privacy_preserved": True,
+                "reason": "Patient failed eligibility verification"
+            }
+        
+        # Check coverage database
+        coverage_info = await self._check_coverage_db(procedure_code)
+        
+        return {
+            "eligible": True,
+            "coverage_pct": coverage_info["coverage_percentage"],
+            "privacy_preserved": True,
+            "procedure_code": procedure_code,
+            "requires_authorization": coverage_info["requires_authorization"],
+            "zk_proof_verified": True
+        }
+    
+    async def _check_coverage_db(self, procedure_code: str) -> Dict:
+        """Simulate insurance provider lookup for coverage details."""
+        await asyncio.sleep(0.05)  # Simulate DB query
+        
+        procedure_info = self.coverage_database.get(procedure_code, {})
+        if not procedure_info:
+            return {
+                "coverage_percentage": 0.0,
+                "requires_authorization": True
+            }
+        
+        return {
+            "coverage_percentage": procedure_info["base_coverage"],
+            "requires_authorization": procedure_info["requires_auth"]
+        }
+
+class DiagnosisModel(nn.Module):
+    # Copyright 2025 Raza Ahmad. Licensed under Apache 2.0.
+    
+    def __init__(self, input_size: int = 100, hidden_size: int = 64, output_size: int = 10):
+        """Initialize neural network for diagnosis classification.
+        
+        Args:
+            input_size: Dimension of input features (patient medical data)
+            hidden_size: Hidden layer dimension
+            output_size: Number of diagnosis categories
+        """
+        super(DiagnosisModel, self).__init__()
+        self.fc1: nn.Linear = nn.Linear(input_size, hidden_size)
+        self.relu: nn.ReLU = nn.ReLU()
+        self.fc2: nn.Linear = nn.Linear(hidden_size, output_size)
+    
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """Forward pass through the diagnosis model.
+        
+        Args:
+            x: Input tensor of shape (batch_size, input_size)
+            
+        Returns:
+            Output tensor of shape (batch_size, output_size) with diagnosis logits
+        """
+        x = self.fc1(x)
+        x = self.relu(x)
+        x = self.fc2(x)
+        return x
