@@ -1,8 +1,14 @@
 # Copyright 2025 Raza Ahmad. Licensed under Apache 2.0.
 
 import asyncio
-import torch
-import torch.nn as nn
+try:
+    import torch
+    import torch.nn as nn
+except (ImportError, OSError) as e:
+    # Fallback to mock implementation for compatibility issues
+    print(f"Warning: PyTorch import failed ({e}), using mock implementation")
+    from . import torch_mock as torch
+    from .torch_mock import nn
 from typing import Dict, List, Optional
 import hashlib
 import json

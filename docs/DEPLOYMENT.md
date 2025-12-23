@@ -79,7 +79,31 @@ docker push your-registry/zk-healthcare-api:latest
 
 ## **Cloud Deployment**
 
-### Option 1: Railway (Recommended for MVP)
+### Option 1: Vercel (Recommended for Serverless)
+
+**Fastest deployment** - 2 minutes to live URL with automatic HTTPS and global CDN.
+
+1. **Quick Deploy**:
+   ```bash
+   # Install Vercel CLI
+   npm i -g vercel
+   
+   # Deploy
+   vercel --prod
+   ```
+
+2. **Or deploy from Git**:
+   - Push to GitHub/GitLab
+   - Connect repository at [vercel.com](https://vercel.com)
+   - Auto-deploys on every push
+
+**Cost**: Free tier (100GB bandwidth/month)
+**URL**: Auto-generated, e.g., https://healthcare-agents-api.vercel.app
+**Features**: Serverless functions, global CDN, automatic HTTPS
+
+📖 **Detailed Guide**: See [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md)
+
+### Option 2: Railway (Recommended for Full Apps)
 
 1. **Create account**: https://railway.app
 2. **Connect GitHub repo**
@@ -103,7 +127,7 @@ docker push your-registry/zk-healthcare-api:latest
 **Cost**: ~$5/month for starter tier
 **URL**: Auto-generated, e.g., https://zk-healthcare-api-prod.up.railway.app
 
-### Option 2: Fly.io
+### Option 3: Fly.io
 
 ```bash
 # Install Fly CLI
