@@ -79,31 +79,38 @@ docker push your-registry/zk-healthcare-api:latest
 
 ## **Cloud Deployment**
 
-### Option 1: Vercel (Recommended for Serverless)
+### Option 1: Render (Recommended - Free Tier Ava
 
-**Fastest deployment** - 2 minutes to live URL with automatic HTTPS and global CDN.
+**Easy deployment** with free tier and excellent Python support. No serverless limins.
 
 1. **Quick Deploy**:
    ```bash
-   # Install Vercel CLI
-   npm i -g vercel
-   
-   # Deploy
-   vercel --prod
+   # Push to GitHub
+   git add .
+   "
+   git push
    ```
 
-2. **Or deploy from Git**:
-   - Push to GitHub/GitLab
-   - Connect repository at [vercel.com](https://vercel.com)
-   - Auto-deploys on every push
+ice**:
+   - Go to [render.com](ht
+   - Click "New +" → "Web "
+   - Connect your GitHub repository
+   - Render auto-detects `rende
 
-**Cost**: Free tier (100GB bandwidth/month)
-**URL**: Auto-generated, e.g., https://healthcare-agents-api.vercel.app
-**Features**: Serverless functions, global CDN, automatic HTTPS
 
-📖 **Detailed Guide**: See [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md)
+**Cost**: Free tier available, $7/month for always-on
+**URL**: Auto-generated, e.g., https://healthcare-agents-api.onm
 
-### Option 2: Railway (Recommended for Full Apps)
+
+.md)
+
+Issues)
+
+~~**Fastest deployment** -.~~
+
+⚠️ **Nd.
+
+### Option 3: Railway (Full Server Features)steaer ins. Use Renddencieh depenh PyTorcn issues witctios funrlesing servenctly experierren**: Cuotel CDN and globaic HTTPSautomat URL with to liveminutes  2 ss - Has erverlercel (S Ven 2:Optio### 
 
 1. **Create account**: https://railway.app
 2. **Connect GitHub repo**
