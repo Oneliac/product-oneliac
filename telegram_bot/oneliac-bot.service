@@ -1,0 +1,19 @@
+[Unit]
+Description=Oneliac Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/oneliac/telegram_bot
+Environment=PATH=/home/ubuntu/oneliac/venv/bin
+EnvironmentFile=/home/ubuntu/oneliac/telegram_bot/.env
+ExecStart=/home/ubuntu/oneliac/venv/bin/python run_bot.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
