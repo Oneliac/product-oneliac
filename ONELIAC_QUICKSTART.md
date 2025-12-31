@@ -54,26 +54,49 @@ vercel --prod
 4. Username: `oneliac_healthcare_bot`
 5. Copy the bot token
 
-### 2. Configure Bot
-```bash
-cd telegram_bot
-cp .env.example .env
+## 🤖 Telegram Bot Setup
 
-# Edit .env file:
-TELEGRAM_BOT_TOKEN=your_bot_token_from_botfather
-API_BASE_URL=https://oneliac-api.onrender.com
+### 1. Create Bot
+1. Message [@BotFather](https://t.me/botfather) on Telegram
+2. Send `/newbot`
+3. Name: `Oneliac Healthcare Bot`
+4. Username: `oneliac_healthcare_bot`
+5. Copy the bot token
+
+### 2. Deploy Bot on Render
+
+**✅ FIXED**: The bot now deploys as a **background worker** (not web service) to avoid port binding errors.
+
+#### Option A: Deploy with API (Recommended)
+The main `render.yaml` includes both services:
+```bash
+git add .
+git commit -m "Deploy bot as background worker"
+git push origin main
+# Render will deploy both API and bot together
 ```
 
-### 3. Run Bot
+#### Option B: Deploy Bot Separately
 ```bash
-pip install -r requirements.txt
-python bot.py
+# Use telegram_bot/render.yaml for separate deployment
+# Create new Background Worker service on Render
+# Set root directory to: telegram_bot
+```
+
+### 3. Configure Environment Variables
+
+In Render dashboard, add:
+```
+TELEGRAM_BOT_TOKEN = your_bot_token_here
+API_BASE_URL = https://oneliac-api.onrender.com
 ```
 
 ### 4. Test Bot
 - Search for your bot on Telegram
 - Send `/start`
 - Try commands like `/health` or `/eligibility PATIENT_001 PROC001`
+
+**📖 Detailed Guide**: See `TELEGRAM_BOT_DEPLOY.md` for complete deployment instructions.
 
 ## 📦 SDK Usage
 

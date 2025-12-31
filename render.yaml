@@ -1,8 +1,9 @@
 services:
+  # Main API Service
   - type: web
-    name: healthcare-agents-api
+    name: oneliac-api
     env: python
-    plan: free  # or 'starter' for $7/month
+    plan: free
     buildCommand: pip install -r agents/requirements.txt
     startCommand: python -m uvicorn agents.api:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
@@ -11,3 +12,16 @@ services:
         value: .
       - key: SOLANA_ENDPOINT
         value: https://api.devnet.solana.com
+
+  # Telegram Bot Background Worker
+  - type: worker
+    name: oneliac-telegram-bot
+    env: python
+    plan: free
+    buildCommand: pip install -r telegram_bot/requirements.txt
+    startCommand: cd telegram_bot && python run_bot.py
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false  # Set this in Render dashboard
+      - key: API_BASE_URL
+        value: https://oneliac-api.onrender.com
