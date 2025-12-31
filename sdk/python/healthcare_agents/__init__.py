@@ -8,7 +8,7 @@ Provides easy access to eligibility verification, prescription validation,
 and federated learning capabilities with zero-knowledge proofs.
 """
 
-from .client import HealthcareAgentsClient
+from .client import HealthcareAgentsClient, HealthcareAgentsClientSync
 from .models import PatientData, EligibilityRequest, PrescriptionRequest, FederatedLearningRequest
 from .exceptions import HealthcareAgentsError, APIError, ValidationError
 
@@ -19,6 +19,7 @@ __license__ = "Apache 2.0"
 
 __all__ = [
     "HealthcareAgentsClient",
+    "HealthcareAgentsClientSync",
     "PatientData", 
     "EligibilityRequest",
     "PrescriptionRequest", 
